@@ -1,16 +1,16 @@
 package com.example.pingponglite;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.*;
-import android.media.MediaPlayer;
-import android.view.Display;
-import android.view.View;
+        import android.content.Context;
+        import android.content.SharedPreferences;
+        import android.graphics.*;
+        import android.media.MediaPlayer;
+        import android.view.Display;
+        import android.view.View;
 
-import java.util.Random;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
+        import java.util.Random;
+        import java.util.logging.Handler;
+        import java.util.logging.LogRecord;
 
 public class GameView extends View {
     Context context;
@@ -90,3 +90,4 @@ public class GameView extends View {
         super.onDraw(canvas);
     }
 }
+

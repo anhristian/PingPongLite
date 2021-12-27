@@ -43,6 +43,6 @@ public class MainActivity extends AppCompatActivity {
         }
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("audioState", audioState);
-        editor.commit();
+        editor.apply();
     }
 }

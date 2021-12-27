@@ -1,5 +1,6 @@
 package com.example.pingponglite;
 
+
 public class Velocity {
     private int x, y;
     public Velocity(int x, int y){
