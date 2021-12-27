@@ -2,7 +2,8 @@ package com.example.pingponglite;
 
 import android.app.Activity;
         import android.content.Context;
-        import android.content.SharedPreferences;
+import android.content.Intent;
+import android.content.SharedPreferences;
         import android.graphics.*;
         import android.media.MediaPlayer;
         import android.view.Display;
@@ -88,6 +89,60 @@ public class GameView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        canvas.drawColor(Color.BLACK);
+        ballX += velocity.getX();
+        ballY += velocity.getY();
+        if((ballX >= dWidth - ball.getWidth()) || ballX<=0){
+            velocity.setX(velocity.getY()*-1);
+        }
+        if(ballY <= 0){
+            velocity.setY(velocity.getY()*-1);
+        }
+        if (ballY > paddleY + paddle.getHeight()){
+            ballX = 1+random.nextInt(dWidth - ball.getWidth() - 1);
+            ballY = 0;
+            if (mpMiss != null && audioState){
+                mpMiss.start();
+            }
+            velocity.setX(xVelocity());
+            velocity.setY(32);
+            life--;
+            if (life == 0){
+                Intent intent = new Intent(context,GameOver.class);
+                intent.putExtra("points",points);
+                context.startActivity(intent);
+                ((Activity)context).finish();
+            }
+        }
+        if(((ballX +ball.getWidth()) >= paddleX)
+                &&(ballX <= paddleX+paddle.getWidth())
+                &&(ballY+ball.getHeight() >= paddleY)
+            &&(ballY+ball.getHeight()<=paddleY+paddle.getHeight())){
+            if (mpHit != null && audioState ){
+                mpHit.start();
+            }
+            velocity.setX(velocity.getX()+1);
+            velocity.setY(velocity.getY()+1);
+            points++;
+        }
+        canvas.drawBitmap(ball,ballX, ballY,null);
+        canvas.drawBitmap(paddle,paddleX,paddleY,null);
+        canvas.drawText(""+points,20, TEXT_SIZE, textPaint);
+        if (life == 2){
+            healthPaint.setColor(Color.YELLOW);
+        }else if(life == 1){
+            healthPaint.setColor(Color.RED);
+        }
+        canvas.drawRect(dWidth-200,30,dWidth-200+60*life,80, healthPaint);
+        handler.postDelayed(runnable,
+                UPDATE_MILLIS);
+
+    }
+
+    private int xVelocity() {
+        int[] values = {-35,-30,-25,25,30,35};
+        int index = random.nextInt(6);
+        return values[index];
     }
 }
 
